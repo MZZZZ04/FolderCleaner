@@ -1,7 +1,7 @@
 定时清理指定文件夹 — 安装说明
 ================================
 
-版本：v1.18
+版本：vx.xx
 运行环境：Windows 10 / Windows 11（64 位）
 
 一、安装
@@ -24,6 +24,6 @@
 
 四、数据位置
 -----------
-- 程序安装目录：C:\Program Files\FolderCleaner
+- 默认程序安装目录：C:\Program Files\FolderCleaner
 - 用户数据（设置/日志）：%APPDATA%\CleanFolderApp\clean_app.db
 - 程序回收站：程序目录下 recycle_bin（不可写时自动回退到数据目录）
