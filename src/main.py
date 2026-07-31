@@ -14,8 +14,9 @@ from __future__ import annotations
 
 import sys
 
+from PySide6.QtCore import QSharedMemory
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication, QMessageBox
 
 from .cleaner.engine import CleanEngine
 from .cleaner.recycle import RecycleBin
@@ -32,6 +33,46 @@ try:
 except ImportError:
     pyi_splash = None
 
+# 单实例锁的共享内存键（跨进程唯一）
+SINGLE_INSTANCE_KEY = "FolderCleaner_SingleInstance_v1"
+
+
+def _close_splash() -> None:
+    """关闭 PyInstaller 启动画面（仅打包后存在；开发环境为空操作）。"""
+    if pyi_splash is not None:
+        try:
+            pyi_splash.close()
+        except Exception:
+            pass
+
+
+def _activate_existing_window() -> None:
+    """尽力把已运行的实例主窗口带到前台（窗口可能在托盘里隐藏）。
+
+    失败时静默忽略，不影响单实例判断结果。
+    """
+    try:
+        import ctypes
+
+        user32 = ctypes.windll.user32
+        hwnd = user32.FindWindowW(None, "定时清理指定文件夹")
+        if hwnd:
+            user32.ShowWindow(hwnd, 9)  # SW_RESTORE
+            user32.SetForegroundWindow(hwnd)
+    except Exception:
+        pass
+
+
+def _acquire_single_instance(shared: QSharedMemory) -> bool:
+    """获取单实例锁。返回 True 表示本实例是第一个（唯一）实例。
+
+    QSharedMemory 对象必须在整个运行期间存活（由 main 持有引用），
+    否则内存映射被释放后其他实例可再次抢占。
+    """
+    if shared.attach():
+        return False
+    return shared.create(1)
+
 
 def main() -> int:
     """应用主函数。"""
@@ -42,6 +83,14 @@ def main() -> int:
     icon_path = get_icon_path()
     if icon_path.exists():
         app.setWindowIcon(QIcon(str(icon_path)))
+
+    # 单实例：只允许运行一个实例（防止重复调度、重复清理、操作冲突）
+    single_instance = QSharedMemory(SINGLE_INSTANCE_KEY)
+    if not _acquire_single_instance(single_instance):
+        _close_splash()
+        _activate_existing_window()
+        QMessageBox.information(None, "定时清理指定文件夹", "程序已在运行，请勿重复启动。")
+        return 0
 
     # 1. 初始化核心组件
     db = Database(get_db_path())
@@ -86,11 +135,7 @@ def main() -> int:
                         run_preview_confirm(window, engine, d.entry, trigger="compensate")
 
     window.show()
-    if pyi_splash is not None:
-        try:
-            pyi_splash.close()
-        except Exception:
-            pass
+    _close_splash()
     window.refresh_all()
 
     return app.exec_()

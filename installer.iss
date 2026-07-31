@@ -7,7 +7,7 @@
 
 #define MyAppName "定时清理指定文件夹"
 #define MyAppExeName "FolderCleaner.exe"
-#define MyAppVersion "1.20"
+#define MyAppVersion "1.21"
 #define MyAppPublisher "Local"
 #define MyAppId "{{8F3C2E4A-9B1D-4C5E-A7F0-2D6B8E1C4A35}"
 
