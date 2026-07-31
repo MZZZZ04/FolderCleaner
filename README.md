@@ -1,7 +1,7 @@
 # <img width="256" height="256" alt="app" src="https://github.com/user-attachments/assets/32514641-c155-482b-bbbe-560d8bde8948" />定时清理指定文件夹 (FolderCleaner)
 
 
-一个 Windows 桌面工具，定时自动清理用户指定文件夹中的冗余文件。适用场景：下载目录、缓存目录、日志目录等容易膨胀的文件夹，设置一次后常驻后台自动维护。
+一个 Windows 桌面工具，定时自动清理用户指定文件夹中的冗余文件。适用场景：下载目录、AI缓存目录、日志目录等容易膨胀的文件夹，设置一次后常驻后台自动维护。
 
 ![平台](https://img.shields.io/badge/平台-Windows-blue) ![界面](https://img.shields.io/badge/界面-GUI%20桌面-green) ![技术](https://img.shields.io/badge/Python-3.9-yellow)
 
