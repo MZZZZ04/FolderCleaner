@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
 
 from ...config import get_recycle_dir
 from ...database import Database
+from ...utils.autostart import set_autostart
 
 KEY_AUTO_START = "auto_start"
 KEY_NOTIFY = "notify_on_clean"
@@ -112,6 +113,8 @@ class SettingsPage(QWidget):
 
     def save_settings(self) -> None:
         """保存界面设置到数据库。"""
+        # 开机自启：同步注册表（真自启）
+        set_autostart(self.auto_start.isChecked())
         self.db.set_setting(KEY_AUTO_START, "1" if self.auto_start.isChecked() else "0")
         self.db.set_setting(KEY_NOTIFY, "1" if self.notify.isChecked() else "0")
         self.db.set_setting(KEY_CHECK_DUE, "1" if self.check_due.isChecked() else "0")
@@ -132,6 +135,7 @@ class SettingsPage(QWidget):
         ret = QMessageBox.question(self, "恢复默认", "确定恢复所有设置为默认值？")
         if ret != QMessageBox.Yes:
             return
+        set_autostart(True)  # 默认开机自启开启，同步注册表
         self.db.set_setting(KEY_AUTO_START, "1")
         self.db.set_setting(KEY_NOTIFY, "1")
         self.db.set_setting(KEY_CHECK_DUE, "1")

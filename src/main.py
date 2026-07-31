@@ -27,6 +27,7 @@ from .ui.dialogs import CompensateDialog
 from .ui.main_window import MainWindow
 from .ui.pages.clean_runner import run_preview_confirm
 from .ui.tray import TrayIcon
+from .utils.autostart import set_autostart
 
 try:
     import pyi_splash  # PyInstaller 启动画面（仅打包后存在，开发环境无此模块）
@@ -94,6 +95,10 @@ def main() -> int:
 
     # 1. 初始化核心组件
     db = Database(get_db_path())
+
+    # 开机自启：设置与注册表保持同步（首次运行/移动 exe 后自动补齐）
+    set_autostart(db.get_setting("auto_start", "1") == "1")
+
     recycle_bin = RecycleBin(db)  # 回收站路径优先取设置页配置
 
     # 定时清空过期回收站文件
