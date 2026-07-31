@@ -1,5 +1,6 @@
 # 规划文档不随源码上传
 *.md
+!README.md
 
 # Python 缓存
 __pycache__/
