@@ -76,7 +76,12 @@ tests/                    # pytest 单元测试（22 项）
 
 ## 截图
 
-（待补充：可添加主界面 / 清理确认 / 回收站页面的截图）
+<img width="922" height="652" alt="bandicam 0065" src="https://github.com/user-attachments/assets/f90f371a-c222-4978-9967-7263f58713ea" />
+<img width="922" height="652" alt="bandicam 0064" src="https://github.com/user-attachments/assets/0bcd57ed-97a4-4b35-b23e-2b7b9bdb2426" />
+<img width="922" height="652" alt="bandicam 0063" src="https://github.com/user-attachments/assets/b82b287f-cdbe-4144-b904-3a86a7bf656e" />
+<img width="922" height="652" alt="bandicam 0062" src="https://github.com/user-attachments/assets/2df7801d-3081-4918-8f6f-0a4e7bb4b4bb" />
+<img width="922" height="652" alt="bandicam 0066" src="https://github.com/user-attachments/assets/d441751a-cb9e-42f1-bf6f-1da9ab374b68" />
+
 
 ---
 
